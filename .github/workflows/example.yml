@@ -1,0 +1,55 @@
+name: ExampleProject - Build and preview deploy
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, closed]
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.event.action != 'closed'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.x.x
+      - name: Publish
+        working-directory: ExampleProject
+        run: dotnet publish --output ./bin/publish
+      - name: zip output
+        working-directory: ExampleProject/bin/publish
+        run: zip -r ${{ github.workspace }}/ExampleProject/bin/ExampleProject.zip .
+      - uses: actions/cache@v2
+        id: build-package
+        with:
+          path: ${{ github.workspace }}/ExampleProject/bin/ExampleProject.zip
+          key: ${{ github.sha }}
+
+  preview-deploy:
+    needs: [build]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        id: build-package
+        with:
+          path: ${{ github.workspace }}/ExampleProject/bin/ExampleProject.zip
+          key: ${{ github.sha }}
+      - uses: ./src/github-action
+        env:
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          subscriptionId: '40249efd-1249-45f2-89e3-0ee812cafac8'
+          resourceGroup: 'sethreid-preview-slot-playground'
+          webAppName: 'preview-deploy'
+          storageAccount: 'previewdeploy'
+          storageContainer: 'preview-deploy-packages'
+          deployPackagePath: '${{ github.workspace }}/ExampleProject/bin/ExampleProject.zip'

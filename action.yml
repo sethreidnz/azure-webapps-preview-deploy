@@ -1,0 +1,31 @@
+name: 'Azure Webapps Preview Deploy'
+description: 'This action provides a way to deploy packages to a preview slot on push to a PR in an Azure Web App and clean up the slot when the PR closes.'
+author: 'Seth Reid'
+inputs:
+  githubToken:
+    required: true
+    description: 'The github token from the run e.g. secrets.GITHUB_TOKEN'
+  subscriptionId:
+    required: true
+    description: 'The subscriptionId that contains the target Azure Web App'
+  resourceGroup:
+    required: true
+    description: 'The resource group that contains the target Azure Web App'
+  webAppName:
+    required: true
+    description: 'The name of the target Azure Web App'
+  storageAccount:
+    required: true
+    description: 'The name of a storage account to upload deployment packages to. Note that the Azure AD app that is carrying out the deployment must have "Storage Blob Data Contributor" to this storage account.'
+  storageContainer:
+    required: true
+    description: 'The name of the container to upload the deployment package to'
+  deployPackagePath:
+    required: true
+    description: 'The local path to the zipped deploy package for deployment to the web app'
+  cleanup:
+    required: false
+    description: 'If true then will clean up the preview slot deployed for the PR. Defaults to false.'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'

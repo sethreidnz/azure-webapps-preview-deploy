@@ -1,0 +1,47 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appService_name": {
+      "type": "string"
+    },
+    "appService_slot": {
+      "type": "string"
+    },
+    "packageUri": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Web/sites/slots",
+      "kind": "WebApp",
+      "name": "[concat(parameters('appService_name'), '/', parameters('appService_slot'))]",
+      "apiVersion": "2019-08-01",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "name": "[concat(parameters('appService_name'), '(', parameters('appService_slot'), ')')]",
+        "state": "Stopped"
+      },
+      "resources": [
+        {
+          "apiVersion": "2014-06-01",
+          "name": "MSDeploy",
+          "type": "Extensions",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites/slots', parameters('appService_name'), parameters('appService_slot'))]"
+          ],
+          "properties": {
+            "packageUri": "[parameters('packageUri')]"
+          }
+        }
+      ]
+    }
+  ],
+  "outputs": {
+    "hostname": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Web/Sites/slots', parameters('appService_name'), parameters('appService_slot'))).defaultHostName]"
+    }
+  }
+}
