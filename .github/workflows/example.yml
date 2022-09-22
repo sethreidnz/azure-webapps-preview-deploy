@@ -40,7 +40,7 @@ jobs:
         with:
           path: ${{ github.workspace }}/ExampleProject/bin/ExampleProject.zip
           key: ${{ github.sha }}
-      - uses: ./src/github-action
+      - uses: ./
         env:
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
