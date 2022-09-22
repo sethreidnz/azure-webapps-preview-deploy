@@ -1,8 +1,5 @@
 name: ExampleProject - Build and preview deploy
 on:
-  push:
-    branches:
-      - main
   pull_request:
     types: [opened, synchronize, closed]
     branches:
