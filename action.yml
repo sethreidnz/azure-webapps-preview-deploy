@@ -30,5 +30,5 @@ runs:
   using: 'node16'
   main: 'dist/index.js'
 branding:
-  icon: 'images/webapp.svg'
+  icon: 'webapp.svg'
   color: 'blue'
