@@ -25,7 +25,7 @@ To use the action you will need to setup a few things setup in your Azure enviro
   - [Create a storage account documentation](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-create?tabs=azure-portal)
   - [Create a storage container documentation](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal?source=recommendations#create-a-container)
 - Assign the required roles to the Azure AD app in order to carry out the preview deploy:
-  - Assign the [Contributer](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#contributor) role for your Azure Web App.
+  - Assign the [Contributer](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#contributor) role for the resource group containing you WebApp.
   - Assign the [Storage Blob Data Contributor role](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor) to the storage account
 - Add the Azure AD the following secrets to your Github repository ([see docs here](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository)) and set them to the clientId, clientSecret and tenantId of the AzureAD app you created
   - `AZURE_CLIENT_ID`
