@@ -2,6 +2,9 @@ name: ExampleProject - Build and preview deploy
 on:
   pull_request:
     types: [opened, synchronize, closed]
+    paths:
+      - ExampleProject/**
+      - .github/workflows/example.yml
     branches:
       - main
 jobs:
@@ -37,7 +40,7 @@ jobs:
         with:
           path: ${{ github.workspace }}/ExampleProject/bin/ExampleProject.zip
           key: ${{ github.sha }}
-      - uses: ./src/github-action
+      - uses: ./
         env:
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}

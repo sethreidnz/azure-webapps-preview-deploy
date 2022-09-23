@@ -6,10 +6,11 @@ on:
       - main
     paths-ignore:
       - '**.md'
+      - ExampleProject/**
   pull_request:
     paths-ignore:
       - '**.md'
-  workflow_dispatch:
+      - ExampleProject/**
 
 jobs:
   check-dist:
