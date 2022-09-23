@@ -1,5 +1,5 @@
 name: 'Azure WebApps Preview Deploy'
-description: 'This action provides a way to deploy packages to a preview slot on push to a PR in an Azure Web App and clean up the slot when the PR closes.'
+description: 'Automates the deployment of your app code to a preview url on pull request'
 author: 'Seth Reid'
 inputs:
   githubToken:
@@ -29,3 +29,6 @@ inputs:
 runs:
   using: 'node16'
   main: 'dist/index.js'
+branding:
+  icon: 'webapp.svg'
+  color: 'blue'
